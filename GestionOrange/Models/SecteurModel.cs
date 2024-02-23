@@ -2,7 +2,7 @@
 
 namespace GestionOrange.Models
 {
-    [Table("Secteur")]
+    [Table("Secteurs")]
     public class SecteurModel
     {
         [PrimaryKey, AutoIncrement, Column("idSecteur")]

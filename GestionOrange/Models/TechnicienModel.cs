@@ -2,7 +2,7 @@
 
 namespace GestionOrange.Models
 {
-    [Table("Technicien")]
+    [Table("Techniciens")]
     public class TechnicienModel
     {
 
