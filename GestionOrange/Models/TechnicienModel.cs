@@ -20,6 +20,9 @@ namespace GestionOrange.Models
 
         [Column("astreinte")]
         public bool Astreinte { get; set; }
+
+        [Column("Secteur_idSecteur")]
+        public int Secteur_IdSecteur { get; set; }
     }
 }
 
