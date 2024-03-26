@@ -1,4 +1,7 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using GestionOrange.Services;
+using GestionOrange.ViewModels;
+using GestionOrange.Views;
+using Microsoft.Extensions.Logging;
 
 namespace GestionOrange
 {
@@ -18,6 +21,14 @@ namespace GestionOrange
 #if DEBUG
     		builder.Logging.AddDebug();
 #endif
+
+            builder.Services.AddSingleton<DatabaseContext>();
+
+            builder.Services.AddSingleton<DataListViewModels>();
+            builder.Services.AddSingleton<DataListPage>();
+
+            builder.Services.AddTransient<DataAddUpdatesTechnicienViewModels>();
+            builder.Services.AddTransient<DataPageAddUpdateTechnicien>();
 
             return builder.Build();
         }
