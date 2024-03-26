@@ -72,13 +72,18 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Folder Include="ViewModels\" />
-	</ItemGroup>
-
-	<ItemGroup>
 	  <Compile Update="Views\DataListPage.xaml.cs">
 	    <DependentUpon>DataListPage.xaml</DependentUpon>
 	  </Compile>
+	  <Compile Update="Views\DataPageAddUpdateTechnicien.xaml.cs">
+	    <DependentUpon>DataPageAddUpdateTechnicien.xaml</DependentUpon>
+	  </Compile>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <MauiXaml Update="Views\DataPageAddUpdateTechnicien.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	</ItemGroup>
 
 </Project>
