@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="GestionOrange.Views.DataPageAddUpdateTechnicien"
+             xmlns:viewModel="clr-namespace:GestionOrange.ViewModels"
+             Title="Add or Update Technician">
+
+    <StackLayout Margin="10" Spacing="15">
+        <VerticalStackLayout>
+            <Label Text="Nom" />
+            <Entry Text="{Binding TechnicienDetails.NomTechnicien}" Placeholder="Nom" />
+            <BoxView HeightRequest="0.8" Color="Gray" />
+        </VerticalStackLayout>
+
+        <VerticalStackLayout>
+            <Label Text="Prénom" />
+            <Entry Text="{Binding TechnicienDetails.PrenomTechnicien}" Placeholder="Prénom" />
+            <BoxView HeightRequest="0.8" Color="Gray" />
+        </VerticalStackLayout>
+
+        <VerticalStackLayout>
+            <Label Text="Numéro de téléphone" />
+            <Entry Text="{Binding TechnicienDetails.NumeroTechnicien}" Placeholder="Numéro de téléphone" />
+            <BoxView HeightRequest="0.8" Color="Gray" />
+        </VerticalStackLayout>
+
+        <VerticalStackLayout>
+            <Label Text="Astreinte"/>
+            <Switch IsToggled="{Binding TechnicienDetails.Astreinte}" />
+            <BoxView HeightRequest="0.8" Color="Gray" />
+        </VerticalStackLayout>
+
+        <Button Text="Save" Command="{Binding AddUpdateTechnicienCommand}" />
+    </StackLayout>
+
+</ContentPage>

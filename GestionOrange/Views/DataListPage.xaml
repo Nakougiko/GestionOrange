@@ -1,6 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:ViewModels="clr-namespace:GestionOrange.ViewModels"
+             xmlns:Models="clr-namespace:GestionOrange.Models"
+             x:DataType="ViewModels:DataListViewModels"
              x:Class="GestionOrange.Views.DataListPage">
 
     <ContentPage.Resources>
@@ -9,6 +12,10 @@
             <Setter Property="FontAttributes" Value="Bold"/>
             <Setter Property="FontSize" Value="Header"/>
             <Setter Property="HorizontalOptions" Value="Center"/>
+        </Style>
+
+        <Style TargetType="Label" x:Key="Elements">
+            <Setter Property="TextColor" Value="Black"/>
         </Style>
     </ContentPage.Resources>
 
@@ -21,18 +28,41 @@
                Grid.Column="1" Grid.Row="0"/>
 
         <Button Text="Ajouter un technicien" HorizontalOptions="FillAndExpand" Margin="10"
-                Grid.Column="0" Grid.Row="2"/>
+                Grid.Column="0" Grid.Row="2"
+                Command="{Binding AddTechncienCommand}"/>
 
         <Button Text="Ajouter une chambre" HorizontalOptions="FillAndExpand" Margin="10" 
                 Grid.Column="1" Grid.Row="2"/>
 
 
-        
-        
+
+
         <Frame CornerRadius="10" Margin="20" Padding="0" HasShadow="True" BackgroundColor="LightGray"
                Grid.Column="0" Grid.Row="1">
-            
-            
+
+            <StackLayout Margin="5">
+                <CollectionView ItemsSource="{Binding Techniciens}">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="Models:TechnicienModel">
+                            <VerticalStackLayout>
+                                <Frame CornerRadius="10" Margin="5" HasShadow="True" BackgroundColor="#f9f9f9">
+                                    <Grid RowDefinitions="*,*,*"
+                                          ColumnDefinitions="Auto,Auto">
+                                        <HorizontalStackLayout Grid.Row="0" Grid.Column="0" Spacing="5">
+                                            <Label Text="{Binding NomTechnicien}" Style="{StaticResource Elements}" 
+                                                   FontAttributes="Bold" FontSize="Medium"/>
+                                            <Label Text="{Binding PrenomTechnicien}" Style="{StaticResource Elements}" 
+                                                   FontAttributes="Bold" FontSize="Medium"/>
+                                        </HorizontalStackLayout>
+                                        <Label Text="{Binding NumeroTechnicien}" Style="{StaticResource Elements}"
+                                               Grid.Row="1"/>
+                                    </Grid>
+                                </Frame>
+                            </VerticalStackLayout>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </StackLayout>
         </Frame>
 
         <Frame CornerRadius="10" Margin="20" Padding="0" HasShadow="True" BackgroundColor="LightGray"
