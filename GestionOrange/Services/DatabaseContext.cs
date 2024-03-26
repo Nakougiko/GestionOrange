@@ -4,7 +4,7 @@ namespace GestionOrange.Services
 {
     public class DatabaseContext
     {
-        private const string DbName = "database.db3";
+        private const string DbName = "ProjetOrange.db3";
         private static string DbPath => Path.Combine(FileSystem.AppDataDirectory, DbName);
 
         private SQLiteAsyncConnection _connection;
@@ -55,6 +55,12 @@ namespace GestionOrange.Services
         {
             await CreateTableIfNotExists<TTable>();
             return await Database.DeleteAsync(item) > 0;
+        }
+
+        public async Task<bool> DeleteItemByKeyAsync<TTable>(object primaryKey) where TTable : class, new()
+        {
+            await CreateTableIfNotExists<TTable>();
+            return await Database.DeleteAsync<TTable>(primaryKey) > 0;
         }
 
         // Libère les ressources de connexion à la base de données
