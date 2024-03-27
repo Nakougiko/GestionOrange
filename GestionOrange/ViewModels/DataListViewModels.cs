@@ -46,30 +46,39 @@ namespace GestionOrange.ViewModels
         [RelayCommand]
         public async void DeleteTechnicien(TechnicienModel technicien)
         {
-            var delResponse = await _dbContext.DeleteItemAsync(technicien);
-            if (delResponse)
-            {
-                GetTechnicienList();
-            }
-        }
-
-        [RelayCommand]
-        public async void DisplayAction(TechnicienModel technicien)
-        {
-            var response = await Shell.Current.DisplayActionSheet("Sélectionner une option", "OK", null, "Modifier", "Supprimer");
-            if (response == "Modifier")
-            {
-                var navParam = new Dictionary<string, object>();
-                navParam.Add("TechnicienDetail", technicien);
-                await Shell.Current.GoToAsync(nameof(DataPageAddUpdateTechnicien), navParam);
-            }
-            else if (response == "Supprimer")
+            var verif = await Shell.Current.DisplayAlert("Confirmation", "Voulez-vous vraiment supprimer ce technicien ?", "Oui", "Non");
+            if (verif)
             {
                 var delResponse = await _dbContext.DeleteItemAsync<TechnicienModel>(technicien);
                 if (delResponse)
                 {
                     GetTechnicienList();
                 }
+            }
+        }
+
+        [RelayCommand]
+        public async void EditTechnicien(TechnicienModel technicien)
+        {
+            var navParam = new Dictionary<string, object>
+            {
+                { "TechnicienDetails", technicien }
+            };
+            await Shell.Current.GoToAsync(nameof(DataPageAddUpdateTechnicien), navParam);
+        }
+
+        
+        [RelayCommand]
+        public async void DisplayAction(TechnicienModel technicien)
+        {
+            var response = await Shell.Current.DisplayActionSheet("Sélectionner une option", "OK", null, "Modifier", "Supprimer");
+            if (response == "Modifier")
+            {
+                EditTechnicien(technicien);
+            }
+            else if (response == "Supprimer")
+            {
+                DeleteTechnicien(technicien);
             }
         }
     }

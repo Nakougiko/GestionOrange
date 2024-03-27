@@ -10,30 +10,32 @@ using System.Threading.Tasks;
 
 namespace GestionOrange.ViewModels
 {
-    [QueryProperty(nameof(TechnicienModel), "TechnicienDetail")]
+    [QueryProperty(nameof(TechnicienDetails), "TechnicienDetails")]
     public partial class DataAddUpdatesTechnicienViewModels : ObservableObject
     {
         [ObservableProperty]
         private TechnicienModel _technicienDetails = new TechnicienModel();
 
+
         private readonly DatabaseContext _dbContext;
 
-        public DataAddUpdatesTechnicienViewModels()
+        public DataAddUpdatesTechnicienViewModels(DatabaseContext dbContext)
         {
-            _dbContext = new DatabaseContext();
+            _dbContext = dbContext;
         }
 
         [RelayCommand]
         public async void AddUpdateTechnicien()
         {
             bool success = false;
-            if (_technicienDetails.IdTechnicien > 0)
+            
+            if (TechnicienDetails.IdTechnicien > 0)
             {
-                success = await _dbContext.UpdateItemAsync<TechnicienModel>(_technicienDetails);
+                success = await _dbContext.UpdateItemAsync<TechnicienModel>(TechnicienDetails);
             }
             else
             {
-                success = await _dbContext.AddItemAsync<TechnicienModel>(_technicienDetails);
+                success = await _dbContext.AddItemAsync<TechnicienModel>(TechnicienDetails);
             }
 
             if (success)

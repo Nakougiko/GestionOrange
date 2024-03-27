@@ -37,33 +37,40 @@
 
 
 
-        <Frame CornerRadius="10" Margin="20" Padding="0" HasShadow="True" BackgroundColor="LightGray"
-               Grid.Column="0" Grid.Row="1">
+        <ScrollView Grid.Column="0" Grid.Row="1">
+            <Frame CornerRadius="10" Margin="20" Padding="0" HasShadow="True" BackgroundColor="LightGray"
+                   Grid.Column="0" Grid.Row="1">
 
-            <StackLayout Margin="5">
-                <CollectionView ItemsSource="{Binding Techniciens}">
-                    <CollectionView.ItemTemplate>
-                        <DataTemplate x:DataType="Models:TechnicienModel">
-                            <VerticalStackLayout>
-                                <Frame CornerRadius="10" Margin="5" HasShadow="True" BackgroundColor="#f9f9f9">
-                                    <Grid RowDefinitions="*,*,*"
-                                          ColumnDefinitions="Auto,Auto">
-                                        <HorizontalStackLayout Grid.Row="0" Grid.Column="0" Spacing="5">
-                                            <Label Text="{Binding NomTechnicien}" Style="{StaticResource Elements}" 
-                                                   FontAttributes="Bold" FontSize="Medium"/>
-                                            <Label Text="{Binding PrenomTechnicien}" Style="{StaticResource Elements}" 
-                                                   FontAttributes="Bold" FontSize="Medium"/>
-                                        </HorizontalStackLayout>
-                                        <Label Text="{Binding NumeroTechnicien}" Style="{StaticResource Elements}"
-                                               Grid.Row="1"/>
-                                    </Grid>
-                                </Frame>
-                            </VerticalStackLayout>
-                        </DataTemplate>
-                    </CollectionView.ItemTemplate>
-                </CollectionView>
-            </StackLayout>
-        </Frame>
+                <StackLayout Margin="5">
+                    <CollectionView ItemsSource="{Binding Techniciens}">
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate x:DataType="Models:TechnicienModel">
+                                <VerticalStackLayout>
+                                    <Frame CornerRadius="10" Margin="5" HasShadow="True" BackgroundColor="#f9f9f9">
+                                        <Frame.GestureRecognizers>
+                                            <TapGestureRecognizer 
+                                                        Command="{Binding Source={x:RelativeSource AncestorType={x:Type ViewModels:DataListViewModels}}, Path=DisplayActionCommand}"
+                                                        CommandParameter="{Binding .}"/>
+                                        </Frame.GestureRecognizers>
+                                        <Grid RowDefinitions="*,*,*"
+                                              ColumnDefinitions="Auto,Auto">
+                                            <HorizontalStackLayout Grid.Row="0" Grid.Column="0" Spacing="5">
+                                                <Label Text="{Binding NomTechnicien}" Style="{StaticResource Elements}" 
+                                                       FontAttributes="Bold" FontSize="Medium"/>
+                                                <Label Text="{Binding PrenomTechnicien}" Style="{StaticResource Elements}" 
+                                                       FontAttributes="Bold" FontSize="Medium"/>
+                                            </HorizontalStackLayout>
+                                            <Label Text="{Binding NumeroTechnicien}" Style="{StaticResource Elements}"
+                                                       Grid.Row="1"/>
+                                        </Grid>
+                                    </Frame>
+                                </VerticalStackLayout>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </StackLayout>
+            </Frame>
+        </ScrollView>
 
         <Frame CornerRadius="10" Margin="20" Padding="0" HasShadow="True" BackgroundColor="LightGray"
        Grid.Column="1" Grid.Row="1">
