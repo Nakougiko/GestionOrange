@@ -3,7 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="GestionOrange.Views.DataPageAddUpdateTechnicien"
              xmlns:viewModel="clr-namespace:GestionOrange.ViewModels"
-             Title="Add or Update Technician">
+             xmlns:behaviors="clr-namespace:GestionOrange.Behaviors"
+             Title="Technicien">
 
     <StackLayout Margin="10" Spacing="15">
         <VerticalStackLayout>
@@ -20,7 +21,12 @@
 
         <VerticalStackLayout>
             <Label Text="Numéro de téléphone" />
-            <Entry Text="{Binding TechnicienDetails.NumeroTechnicien}" Placeholder="Numéro de téléphone" />
+            <Entry Text="{Binding TechnicienDetails.NumeroTechnicien}" Placeholder="Numéro de téléphone"
+                   Keyboard="Telephone" MaxLength="10">
+                <Entry.Behaviors>
+                    <behaviors:NumeroTelephoneMaskBehavior/>
+                </Entry.Behaviors>
+            </Entry>
             <BoxView HeightRequest="0.8" Color="Gray" />
         </VerticalStackLayout>
 
@@ -30,7 +36,7 @@
             <BoxView HeightRequest="0.8" Color="Gray" />
         </VerticalStackLayout>
 
-        <Button Text="Save" Command="{Binding AddUpdateTechnicienCommand}" />
+        <Button Text="Enregistrer" Command="{Binding AddUpdateTechnicienCommand}" />
     </StackLayout>
 
 </ContentPage>

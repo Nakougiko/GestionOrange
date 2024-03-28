@@ -2,11 +2,6 @@
 using CommunityToolkit.Mvvm.Input;
 using GestionOrange.Models;
 using GestionOrange.Services;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GestionOrange.ViewModels
 {
@@ -15,8 +10,6 @@ namespace GestionOrange.ViewModels
     {
         [ObservableProperty]
         private TechnicienModel _technicienDetails = new TechnicienModel();
-
-
         private readonly DatabaseContext _dbContext;
 
         public DataAddUpdatesTechnicienViewModels(DatabaseContext dbContext)
@@ -27,25 +20,23 @@ namespace GestionOrange.ViewModels
         [RelayCommand]
         public async void AddUpdateTechnicien()
         {
-            bool success = false;
-            
-            if (TechnicienDetails.IdTechnicien > 0)
+            string champsVides = string.Empty;
+
+            if (string.IsNullOrEmpty(TechnicienDetails.NomTechnicien) ||
+                string.IsNullOrEmpty(TechnicienDetails.PrenomTechnicien) ||
+                string.IsNullOrEmpty(TechnicienDetails.NumeroTechnicien))
             {
-                success = await _dbContext.UpdateItemAsync<TechnicienModel>(TechnicienDetails);
-            }
-            else
-            {
-                success = await _dbContext.AddItemAsync<TechnicienModel>(TechnicienDetails);
+                await Shell.Current.DisplayAlert("Champs manquants", "Veuillez remplir tous les champs", "OK");
+                return;
             }
 
-            if (success)
-            {
-                await Shell.Current.DisplayAlert("Info sur le technicien enregistré", "Enregistrement réussi", "OK");
-            }
-            else
-            {
-                await Shell.Current.DisplayAlert("Erreur", "Quelque chose s'est mal passé lors de l'ajout ou de la mise à jour du technicien", "OK");
-            }
+            bool success = TechnicienDetails.IdTechnicien > 0 ?
+            await _dbContext.UpdateItemAsync<TechnicienModel>(TechnicienDetails) :
+            await _dbContext.AddItemAsync<TechnicienModel>(TechnicienDetails);
+
+            string message = success ? "Enregistrement réussi" : "Quelque chose s'est mal passé lors de l'ajout ou de la mise à jour du technicien";
+            await Shell.Current.DisplayAlert("Information du technicien", message, "OK");
+            await Shell.Current.GoToAsync("..");
         }
     }
 }

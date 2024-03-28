@@ -58,6 +58,8 @@
 
 	<ItemGroup>
 	  <None Remove="Resources\Images\data_img.svg" />
+	  <None Remove="Resources\Images\false_astreinte.png" />
+	  <None Remove="Resources\Images\false__astreinte.svg" />
 	  <None Remove="Resources\Images\home_img.svg" />
 	  <None Remove="Resources\Images\Orange_logo.svg" />
 	</ItemGroup>

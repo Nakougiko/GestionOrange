@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:ViewModels="clr-namespace:GestionOrange.ViewModels"
              xmlns:Models="clr-namespace:GestionOrange.Models"
+             xmlns:converters="clr-namespace:GestionOrange.Converters"
              x:DataType="ViewModels:DataListViewModels"
              x:Class="GestionOrange.Views.DataListPage">
 
@@ -17,6 +18,10 @@
         <Style TargetType="Label" x:Key="Elements">
             <Setter Property="TextColor" Value="Black"/>
         </Style>
+
+        <ResourceDictionary>
+            <converters:AstreinteToImageConverter x:Key="AstreinteImage"/>
+        </ResourceDictionary>
     </ContentPage.Resources>
 
     <Grid ColumnDefinitions="*,*"
@@ -52,8 +57,8 @@
                                                         Command="{Binding Source={x:RelativeSource AncestorType={x:Type ViewModels:DataListViewModels}}, Path=DisplayActionCommand}"
                                                         CommandParameter="{Binding .}"/>
                                         </Frame.GestureRecognizers>
-                                        <Grid RowDefinitions="*,*,*"
-                                              ColumnDefinitions="Auto,Auto">
+                                        <Grid RowDefinitions="*,*"
+                                              ColumnDefinitions="*,Auto">
                                             <HorizontalStackLayout Grid.Row="0" Grid.Column="0" Spacing="5">
                                                 <Label Text="{Binding NomTechnicien}" Style="{StaticResource Elements}" 
                                                        FontAttributes="Bold" FontSize="Medium"/>
@@ -62,6 +67,10 @@
                                             </HorizontalStackLayout>
                                             <Label Text="{Binding NumeroTechnicien}" Style="{StaticResource Elements}"
                                                        Grid.Row="1"/>
+                                            <Image Source="{Binding Astreinte, Converter={StaticResource AstreinteImage}}"
+                                                   Grid.RowSpan="2" Grid.Column="1"
+                                                   HeightRequest="50" HorizontalOptions="CenterAndExpand"
+                                                   />
                                         </Grid>
                                     </Frame>
                                 </VerticalStackLayout>

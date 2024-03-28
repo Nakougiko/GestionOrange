@@ -12,6 +12,7 @@ namespace GestionOrange.ViewModels
         public static List<TechnicienModel> TechniciensListForSearch { get; private set; } = new List<TechnicienModel>();
         public ObservableCollection<TechnicienModel> Techniciens { get; set; } = new ObservableCollection<TechnicienModel>();
 
+
         private readonly DatabaseContext _dbContext;
 
         public DataListViewModels()
@@ -22,11 +23,13 @@ namespace GestionOrange.ViewModels
         [RelayCommand]
         public async void GetTechnicienList()
         {
-            Techniciens.Clear();
             var technicienList = await _dbContext.GetAllAsync<TechnicienModel>();
-            if (technicienList.Count() > 0)
+
+            if (technicienList.Any()) // Any vérifie si il y a au moins un élément dans la liste
             {
                 technicienList = technicienList.OrderBy(t => t.NomTechnicien).ToList();
+                Techniciens.Clear();
+
                 foreach (var technicien in technicienList)
                 {
                     Techniciens.Add(technicien);
@@ -47,13 +50,13 @@ namespace GestionOrange.ViewModels
         public async void DeleteTechnicien(TechnicienModel technicien)
         {
             var verif = await Shell.Current.DisplayAlert("Confirmation", "Voulez-vous vraiment supprimer ce technicien ?", "Oui", "Non");
-            if (verif)
+            if (!verif)
+                return;
+            
+            var delResponse = await _dbContext.DeleteItemAsync<TechnicienModel>(technicien);
+            if (delResponse)
             {
-                var delResponse = await _dbContext.DeleteItemAsync<TechnicienModel>(technicien);
-                if (delResponse)
-                {
-                    GetTechnicienList();
-                }
+                GetTechnicienList();
             }
         }
 
@@ -72,13 +75,15 @@ namespace GestionOrange.ViewModels
         public async void DisplayAction(TechnicienModel technicien)
         {
             var response = await Shell.Current.DisplayActionSheet("Sélectionner une option", "OK", null, "Modifier", "Supprimer");
-            if (response == "Modifier")
+            switch (response)
             {
-                EditTechnicien(technicien);
-            }
-            else if (response == "Supprimer")
-            {
-                DeleteTechnicien(technicien);
+                case "Modifier":
+                    EditTechnicien(technicien);
+                    break;
+
+                case "Supprimer":
+                    DeleteTechnicien(technicien);
+                    break;
             }
         }
     }
