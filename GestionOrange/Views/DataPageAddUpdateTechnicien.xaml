@@ -9,13 +9,23 @@
     <StackLayout Margin="10" Spacing="15">
         <VerticalStackLayout>
             <Label Text="Nom" />
-            <Entry Text="{Binding TechnicienDetails.NomTechnicien}" Placeholder="Nom" />
+            <Entry Text="{Binding TechnicienDetails.NomTechnicien}" Placeholder="Nom" 
+                   MaxLength="20">
+                <Entry.Behaviors>
+                    <behaviors:NomPrenomMaskBehavior/>
+                </Entry.Behaviors>
+            </Entry>
             <BoxView HeightRequest="0.8" Color="Gray" />
         </VerticalStackLayout>
 
         <VerticalStackLayout>
             <Label Text="Prénom" />
-            <Entry Text="{Binding TechnicienDetails.PrenomTechnicien}" Placeholder="Prénom" />
+            <Entry Text="{Binding TechnicienDetails.PrenomTechnicien}" Placeholder="Prénom" 
+                   MaxLength="20">
+                <Entry.Behaviors>
+                    <behaviors:NomPrenomMaskBehavior/>
+                </Entry.Behaviors>
+            </Entry>
             <BoxView HeightRequest="0.8" Color="Gray" />
         </VerticalStackLayout>
 
