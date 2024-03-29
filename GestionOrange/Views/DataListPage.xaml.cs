@@ -17,6 +17,7 @@ namespace GestionOrange.Views
         {
             base.OnAppearing();
             _viewModel.GetTechnicienList();
+            _viewModel.GetChambreList();
         }
     }
 

@@ -34,17 +34,17 @@
 
         <Button Text="Ajouter un technicien" HorizontalOptions="FillAndExpand" Margin="10"
                 Grid.Column="0" Grid.Row="2"
-                Command="{Binding AddTechncienCommand}"/>
+                Command="{Binding AddTechnicienCommand}"/>
 
         <Button Text="Ajouter une chambre" HorizontalOptions="FillAndExpand" Margin="10" 
-                Grid.Column="1" Grid.Row="2"/>
+                Grid.Column="1" Grid.Row="2"
+                Command="{Binding AddChambreCommand}"/>
 
 
 
 
         <ScrollView Grid.Column="0" Grid.Row="1">
-            <Frame CornerRadius="10" Margin="20" Padding="0" HasShadow="True" BackgroundColor="LightGray"
-                   Grid.Column="0" Grid.Row="1">
+            <Frame CornerRadius="10" Margin="20" Padding="0" HasShadow="True" BackgroundColor="LightGray">
 
                 <StackLayout Margin="5">
                     <CollectionView ItemsSource="{Binding Techniciens}">
@@ -81,11 +81,36 @@
             </Frame>
         </ScrollView>
 
-        <Frame CornerRadius="10" Margin="20" Padding="0" HasShadow="True" BackgroundColor="LightGray"
-       Grid.Column="1" Grid.Row="1">
-
-
-        </Frame>
+        <ScrollView Grid.Column="1" Grid.Row="1">
+            <Frame CornerRadius="10" Margin="20" Padding="0" HasShadow="True" BackgroundColor="LightGray">
+                <StackLayout Margin="5">
+                    <CollectionView ItemsSource="{Binding Chambres}">
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate x:DataType="Models:ChambreModel">
+                                <VerticalStackLayout>
+                                    <Frame CornerRadius="10" Margin="5" HasShadow="True" BackgroundColor="#f9f9f9">
+                                        <Frame.GestureRecognizers>
+                                            <TapGestureRecognizer 
+                                        Command="{Binding Source={x:RelativeSource AncestorType={x:Type ViewModels:DataListViewModels}}, Path=DisplayActionChambreCommand}"
+                                        CommandParameter="{Binding .}"/>
+                                        </Frame.GestureRecognizers>
+                                        <Grid RowDefinitions="*"
+                              ColumnDefinitions="*,Auto">
+                                            <HorizontalStackLayout Grid.Row="0" Grid.Column="0" Spacing="5">
+                                                <Label Text="{Binding Latitude}" Style="{StaticResource Elements}" 
+                                       FontAttributes="Bold" FontSize="Medium"/>
+                                                <Label Text="{Binding Longitude}" Style="{StaticResource Elements}" 
+                                       FontAttributes="Bold" FontSize="Medium"/>
+                                            </HorizontalStackLayout>
+                                        </Grid>
+                                    </Frame>
+                                </VerticalStackLayout>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </StackLayout>
+            </Frame>
+        </ScrollView>
     </Grid>
 
 </ContentPage>

@@ -83,6 +83,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <MauiXaml Update="Views\DataPageAddUpdateChambre.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Views\DataPageAddUpdateTechnicien.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>

@@ -29,6 +29,10 @@ namespace GestionOrange
 
             builder.Services.AddTransient<DataAddUpdatesTechnicienViewModels>();
             builder.Services.AddTransient<DataPageAddUpdateTechnicien>();
+            
+            builder.Services.AddTransient<DataPageAddUpdatesChambreViewModels>();
+            builder.Services.AddTransient<DataPageAddUpdateChambre>();
+            
 
             return builder.Build();
         }

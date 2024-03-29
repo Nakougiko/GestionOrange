@@ -9,6 +9,7 @@ namespace GestionOrange
             InitializeComponent();
 
             Routing.RegisterRoute(nameof(DataPageAddUpdateTechnicien), typeof(DataPageAddUpdateTechnicien));
+            Routing.RegisterRoute(nameof(DataPageAddUpdateChambre), typeof(DataPageAddUpdateChambre));
         }
     }
 }
