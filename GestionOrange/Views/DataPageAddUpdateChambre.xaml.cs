@@ -7,7 +7,6 @@ public partial class DataPageAddUpdateChambre : ContentPage
     public DataPageAddUpdateChambre(DataPageAddUpdatesChambreViewModels viewModel)
     {
         InitializeComponent();
-
         BindingContext = viewModel;
     }
 }

@@ -20,6 +20,7 @@ namespace GestionOrange.Behaviors
         {
             var entry = (Entry)sender;
             entry.Text = FormatPhoneNumber(e.NewTextValue);
+            entry.CursorPosition = entry.Text.Length;
         }
         
         private string FormatPhoneNumber(string phoneNumber)
@@ -29,10 +30,23 @@ namespace GestionOrange.Behaviors
 
             var numericInput = new string(phoneNumber.Where(c => char.IsDigit(c)).ToArray());
 
-            if (numericInput.Length < 10)
-                return Regex.Replace(numericInput, @"(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})", "$1 $2 $3 $4 $5");
+            // Si le numéro est plus long que 2 chiffres, ajouter un espace après chaque paire de chiffres
+            if (numericInput.Length > 2)
+            {
+                var formattedNumber = string.Empty;
+                for (int i = 0; i < numericInput.Length; i++)
+                {
+                    if (i % 2 == 0 && i != 0)
+                        formattedNumber += " " + numericInput[i];
+                    else
+                        formattedNumber += numericInput[i];
+                }
+                return formattedNumber;
+            }
             else
-                return numericInput.Substring(0, 10);
+            {
+                return numericInput;
+            }
         }   
     }
 }

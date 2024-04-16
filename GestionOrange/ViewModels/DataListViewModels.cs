@@ -9,10 +9,7 @@ namespace GestionOrange.ViewModels
 {
     public partial class DataListViewModels : ObservableObject
     {
-        public static List<TechnicienModel> TechniciensListForSearch { get; private set; } = new List<TechnicienModel>();
         public ObservableCollection<TechnicienModel> Techniciens { get; set; } = new ObservableCollection<TechnicienModel>();
-
-        public static List<ChambreModel> ChambresListForSearch { get; private set; } = new List<ChambreModel>();
         public ObservableCollection<ChambreModel> Chambres { get; set; } = new ObservableCollection<ChambreModel>();
 
         private readonly DatabaseContext _dbContext;
@@ -22,44 +19,38 @@ namespace GestionOrange.ViewModels
             _dbContext = new DatabaseContext();
         }
 
+        // Methode générique pour récupérer la liste des éléments de la base de données
+        private async Task GetListAsync<T>(ObservableCollection<T> list) where T : class, new()
+        {
+            list.Clear();
+            var items = await _dbContext.GetAllAsync<T>();
+
+            if (items.Any())
+            {
+                foreach (var item in items)
+                {
+                    if (item is TechnicienModel technicien)
+                    {
+                        technicien.NomTechnicien = FormatDonnee.ConvertToDisplayFormat(technicien.NomTechnicien);
+                        technicien.PrenomTechnicien = FormatDonnee.ConvertToDisplayFormat(technicien.PrenomTechnicien);
+                        technicien.NumeroTechnicien = FormatDonnee.ConvertNumeroToDisplayFormat(technicien.NumeroTechnicien);
+                    }
+
+                    list.Add(item);
+                }
+            }
+        }
+
         [RelayCommand]
         public async void GetTechnicienList()
         {
-            Techniciens.Clear();
-            var technicienList = await _dbContext.GetAllAsync<TechnicienModel>();
-
-            if (technicienList.Any()) // Any vérifie si il y a au moins un élément dans la liste
-            {
-                technicienList = technicienList.OrderBy(t => t.NomTechnicien).ToList();
-
-                foreach (var technicien in technicienList)
-                {
-                    Techniciens.Add(technicien);
-                }
-
-                TechniciensListForSearch.Clear();
-                TechniciensListForSearch.AddRange(technicienList);
-            }
+            await GetListAsync(Techniciens);
         }
 
         [RelayCommand]
         public async void GetChambreList()
         {
-            Chambres.Clear();
-            var chambreList = await _dbContext.GetAllAsync<ChambreModel>();
-
-            if (chambreList.Any()) // Any vérifie si il y a au moins un élément dans la liste
-            {
-                chambreList = chambreList.OrderBy(c => c.IdChambre).ToList();
-
-                foreach (var chambre in chambreList)
-                {
-                    Chambres.Add(chambre);
-                }
-
-                ChambresListForSearch.Clear();
-                ChambresListForSearch.AddRange(chambreList);
-            }
+            await GetListAsync(Chambres);
         }
 
         [RelayCommand]
@@ -73,31 +64,6 @@ namespace GestionOrange.ViewModels
         {
             await Shell.Current.GoToAsync(nameof(DataPageAddUpdateChambre));
         }
-
-        [RelayCommand]
-        public async void DeleteTechnicien(TechnicienModel technicien)
-        {
-            var verif = await Shell.Current.DisplayAlert("Confirmation", "Voulez-vous vraiment supprimer ce technicien ?", "Oui", "Non");
-            if (!verif)
-                return;
-            
-            var delResponse = await _dbContext.DeleteItemAsync<TechnicienModel>(technicien);
-            if (delResponse)
-            {
-                GetTechnicienList();
-            }
-        }
-
-        [RelayCommand]
-        public async void EditTechnicien(TechnicienModel technicien)
-        {
-            var navParam = new Dictionary<string, object>
-            {
-                { "TechnicienDetails", technicien }
-            };
-            await Shell.Current.GoToAsync(nameof(DataPageAddUpdateTechnicien), navParam);
-        }
-
         
         [RelayCommand]
         public async void DisplayAction(TechnicienModel technicien)
@@ -112,6 +78,30 @@ namespace GestionOrange.ViewModels
                 case "Supprimer":
                     DeleteTechnicien(technicien);
                     break;
+            }
+        }
+
+        [RelayCommand]
+        public async void EditTechnicien(TechnicienModel technicien)
+        {
+            var navParam = new Dictionary<string, object>
+            {
+                { "TechnicienDetails", technicien }
+            };
+            await Shell.Current.GoToAsync(nameof(DataPageAddUpdateTechnicien), navParam);
+        }
+
+        [RelayCommand]
+        public async void DeleteTechnicien(TechnicienModel technicien)
+        {
+            var verif = await Shell.Current.DisplayAlert("Confirmation", "Voulez-vous vraiment supprimer ce technicien ?", "Oui", "Non");
+            if (!verif)
+                return;
+
+            var delResponse = await _dbContext.DeleteItemAsync<TechnicienModel>(technicien);
+            if (delResponse)
+            {
+                GetTechnicienList();
             }
         }
 
@@ -132,6 +122,16 @@ namespace GestionOrange.ViewModels
         }
 
         [RelayCommand]
+        private async void EditChambre(ChambreModel chambre)
+        {
+            var navParam = new Dictionary<string, object>
+            {
+                { "ChambreDetails", chambre }
+            };
+            await Shell.Current.GoToAsync(nameof(DataPageAddUpdateChambre), navParam);
+        }
+
+        [RelayCommand]
         private async void DeleteChambre(ChambreModel chambre)
         {
             var verif = await Shell.Current.DisplayAlert("Confirmation", "Voulez-vous vraiment supprimer cette chambre ?", "Oui", "Non");
@@ -143,17 +143,6 @@ namespace GestionOrange.ViewModels
             {
                 GetChambreList();
             }
-        }
-
-
-        [RelayCommand]
-        private async void EditChambre(ChambreModel chambre)
-        {
-            var navParam = new Dictionary<string, object>
-            {
-                { "ChambreDetails", chambre }
-            };
-            await Shell.Current.GoToAsync(nameof(DataPageAddUpdateChambre), navParam);
         }
     }
 }

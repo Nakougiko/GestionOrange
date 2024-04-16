@@ -57,6 +57,7 @@ namespace GestionOrange.Services
             return await Database.DeleteAsync(item) > 0;
         }
 
+        // Supprime un élément par clé de la table spécifiée
         public async Task<bool> DeleteItemByKeyAsync<TTable>(object primaryKey) where TTable : class, new()
         {
             await CreateTableIfNotExists<TTable>();
