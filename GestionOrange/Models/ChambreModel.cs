@@ -7,12 +7,15 @@ namespace GestionOrange.Models
     {
         [PrimaryKey, AutoIncrement, Column("idChambre")]
         public int IdChambre { get; set; }
-        
+
+        [Column("numeroSerie")]
+        public string NumeroSerie { get; set; }
+
         [Column("latitude")]
-        public string Latitude { get; set; }
+        public float Latitude { get; set; }
 
         [Column("longitude")]
-        public string Longitude { get; set; }
+        public float Longitude { get; set; }
 
         [Column("Secteur_idSecteur")]
         public int Secteur_IdSecteur { get; set; }

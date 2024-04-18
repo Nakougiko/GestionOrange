@@ -93,13 +93,17 @@
                                         CommandParameter="{Binding .}"/>
                                         </Frame.GestureRecognizers>
                                         <Grid RowDefinitions="*"
-                              ColumnDefinitions="*,Auto">
-                                            <HorizontalStackLayout Grid.Row="0" Grid.Column="0" Spacing="5">
-                                                <Label Text="{Binding Latitude}" Style="{StaticResource Elements}" 
-                                       FontAttributes="Bold" FontSize="Medium"/>
-                                                <Label Text="{Binding Longitude}" Style="{StaticResource Elements}" 
-                                       FontAttributes="Bold" FontSize="Medium"/>
-                                            </HorizontalStackLayout>
+                                              ColumnDefinitions="*,Auto">
+                                            <VerticalStackLayout>
+                                                <Label Text="{Binding NumeroSerie}" Style="{StaticResource Elements}"
+                                                       FontAttributes="Bold" FontSize="Medium"/>
+                                                <HorizontalStackLayout Grid.Row="0" Grid.Column="0" Spacing="5">
+                                                    <Label Text="Lat: " Style="{StaticResource Elements}"/>
+                                                    <Label Text="{Binding Latitude}" Style="{StaticResource Elements}"/>
+                                                    <Label Text="Long: " Style="{StaticResource Elements}"/>
+                                                    <Label Text="{Binding Longitude}" Style="{StaticResource Elements}"/>
+                                                </HorizontalStackLayout>
+                                            </VerticalStackLayout>
                                         </Grid>
                                     </Frame>
                                 </VerticalStackLayout>

@@ -3,19 +3,41 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="GestionOrange.Views.DataPageAddUpdateChambre"
              xmlns:viewModel="clr-namespace:GestionOrange.ViewModels"
+             xmlns:behaviors="clr-namespace:GestionOrange.Behaviors"
              Title="Chambre">
 
 
     <StackLayout Margin="10" Spacing="15">
         <VerticalStackLayout>
+            <Label Text="Numéro de série" />
+            <Entry Text="{Binding ChambreDetails.NumeroSerie}" Placeholder="Numéro de série"
+                   Keyboard="Numeric">
+                <Entry.Behaviors>
+                    <behaviors:AdresseMacMaskBehavior/>
+                </Entry.Behaviors>
+            </Entry>
+            <BoxView HeightRequest="0.8" Color="Gray" />
+        </VerticalStackLayout>
+
+        <VerticalStackLayout>
             <Label Text="Latitude" />
-            <Entry Text="{Binding ChambreDetails.Latitude}" Placeholder="Latitude"/>
+            <Entry Text="{Binding ChambreDetails.Latitude}" Placeholder="Latitude"
+                   Keyboard="Numeric">
+                <Entry.Behaviors>
+                    <behaviors:LatLongMaskBehavior/>
+                </Entry.Behaviors>
+            </Entry>
             <BoxView HeightRequest="0.8" Color="Gray" />
         </VerticalStackLayout>
 
         <VerticalStackLayout>
             <Label Text="Longitude" />
-            <Entry Text="{Binding ChambreDetails.Longitude}" Placeholder="Longitude"/>
+            <Entry Text="{Binding ChambreDetails.Longitude}" Placeholder="Longitude"
+                   Keyboard="Numeric">
+                <Entry.Behaviors>
+                    <behaviors:LatLongMaskBehavior/>
+                </Entry.Behaviors>
+            </Entry>
             <BoxView HeightRequest="0.8" Color="Gray" />
         </VerticalStackLayout>
 
