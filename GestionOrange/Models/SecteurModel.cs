@@ -9,6 +9,6 @@ namespace GestionOrange.Models
         public int IdSecteur { get; set; }
 
         [Column("nom")]
-        public string NomSecteur { get; set; }
+        public string? NomSecteur { get; set; }
     }
 }

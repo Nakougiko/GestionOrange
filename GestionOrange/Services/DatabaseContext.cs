@@ -1,4 +1,5 @@
-﻿using SQLite;
+﻿using GestionOrange.Models;
+using SQLite;
 
 namespace GestionOrange.Services
 {
@@ -7,9 +8,40 @@ namespace GestionOrange.Services
         private const string DbName = "ProjetOrange.db3";
         private static string DbPath => Path.Combine(FileSystem.AppDataDirectory, DbName);
 
-        private SQLiteAsyncConnection _connection;
+        private SQLiteAsyncConnection _connection = null!;
         private SQLiteAsyncConnection Database =>
             (_connection ??= new SQLiteAsyncConnection(DbPath, SQLiteOpenFlags.Create | SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.SharedCache));
+
+        public DatabaseContext()
+        {
+            Task.Run(async () => await FillSecteurTableAsync());
+        }
+
+        private async Task<bool> FillSecteurTableAsync()
+        {
+            await CreateTableIfNotExists<SecteurModel>();
+
+            var secteurs = await GetAllAsync<SecteurModel>();
+            if (secteurs.Any())
+            {
+                return false;
+            }
+
+            var defaultSecteurs = new List<SecteurModel>
+            {
+                new SecteurModel { IdSecteur=1, NomSecteur = "Artois" },
+                new SecteurModel { IdSecteur=2, NomSecteur = "Hainaut" },
+                new SecteurModel { IdSecteur=3, NomSecteur = "Métropole" },
+                new SecteurModel { IdSecteur=4, NomSecteur = "Opale" }
+            };
+            
+            foreach (var secteur in defaultSecteurs)
+            {
+                await AddItemAsync<SecteurModel>(secteur);
+            }
+
+            return true;
+        }
 
         private async Task CreateTableIfNotExists<TTable>() where TTable : class, new()
         {
@@ -65,6 +97,12 @@ namespace GestionOrange.Services
         }
 
         // Libère les ressources de connexion à la base de données
-        public async ValueTask DisposeAsync() => await _connection?.CloseAsync();
+        public async ValueTask DisposeAsync()
+        {
+            if (_connection != null)
+            {
+                await _connection!.CloseAsync();
+            }
+        }
     }
 }

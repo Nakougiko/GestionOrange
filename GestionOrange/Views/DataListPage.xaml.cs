@@ -13,11 +13,11 @@ namespace GestionOrange.Views
             this.BindingContext = viewModel;
         }
 
-        protected override void OnAppearing()
+        protected async override void OnAppearing()
         {
             base.OnAppearing();
-            _viewModel.GetTechnicienList();
-            _viewModel.GetChambreList();
+            await _viewModel.GetTechnicienList();
+            await _viewModel.GetChambreList();
         }
     }
 

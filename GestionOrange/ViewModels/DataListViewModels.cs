@@ -42,47 +42,47 @@ namespace GestionOrange.ViewModels
         }
 
         [RelayCommand]
-        public async void GetTechnicienList()
+        public async Task GetTechnicienList()
         {
             await GetListAsync(Techniciens);
         }
 
         [RelayCommand]
-        public async void GetChambreList()
+        public async Task GetChambreList()
         {
             await GetListAsync(Chambres);
         }
 
         [RelayCommand]
-        public async void AddTechnicien()
+        public async Task AddTechnicien()
         {
             await Shell.Current.GoToAsync(nameof(DataPageAddUpdateTechnicien));
         }
 
         [RelayCommand]
-        public async void AddChambre()
+        public async Task AddChambre()
         {
             await Shell.Current.GoToAsync(nameof(DataPageAddUpdateChambre));
         }
         
         [RelayCommand]
-        public async void DisplayAction(TechnicienModel technicien)
+        public async Task DisplayAction(TechnicienModel technicien)
         {
             var response = await Shell.Current.DisplayActionSheet("Sélectionner une option", "OK", null, "Modifier", "Supprimer");
             switch (response)
             {
                 case "Modifier":
-                    EditTechnicien(technicien);
+                    await EditTechnicien(technicien);
                     break;
 
                 case "Supprimer":
-                    DeleteTechnicien(technicien);
+                    await DeleteTechnicien(technicien);
                     break;
             }
         }
 
         [RelayCommand]
-        public async void EditTechnicien(TechnicienModel technicien)
+        public async Task EditTechnicien(TechnicienModel technicien)
         {
             var navParam = new Dictionary<string, object>
             {
@@ -92,7 +92,7 @@ namespace GestionOrange.ViewModels
         }
 
         [RelayCommand]
-        public async void DeleteTechnicien(TechnicienModel technicien)
+        public async Task DeleteTechnicien(TechnicienModel technicien)
         {
             var verif = await Shell.Current.DisplayAlert("Confirmation", "Voulez-vous vraiment supprimer ce technicien ?", "Oui", "Non");
             if (!verif)
@@ -101,28 +101,28 @@ namespace GestionOrange.ViewModels
             var delResponse = await _dbContext.DeleteItemAsync<TechnicienModel>(technicien);
             if (delResponse)
             {
-                GetTechnicienList();
+                await GetTechnicienList();
             }
         }
 
         [RelayCommand]
-        public async void DisplayActionChambre(ChambreModel chambre)
+        public async Task DisplayActionChambre(ChambreModel chambre)
         {
             var response = await Shell.Current.DisplayActionSheet("Sélectionner une option", "OK", null, "Modifier", "Supprimer");
             switch (response)
             {
                 case "Modifier":
-                    EditChambre(chambre);
+                    await EditChambre(chambre);
                     break;
 
                 case "Supprimer":
-                    DeleteChambre(chambre);
+                    await DeleteChambre(chambre);
                     break;
             }
         }
 
         [RelayCommand]
-        private async void EditChambre(ChambreModel chambre)
+        private async Task EditChambre(ChambreModel chambre)
         {
             var navParam = new Dictionary<string, object>
             {
@@ -132,7 +132,7 @@ namespace GestionOrange.ViewModels
         }
 
         [RelayCommand]
-        private async void DeleteChambre(ChambreModel chambre)
+        private async Task DeleteChambre(ChambreModel chambre)
         {
             var verif = await Shell.Current.DisplayAlert("Confirmation", "Voulez-vous vraiment supprimer cette chambre ?", "Oui", "Non");
             if (!verif)
@@ -141,7 +141,7 @@ namespace GestionOrange.ViewModels
             var delResponse = await _dbContext.DeleteItemAsync<ChambreModel>(chambre);
             if (delResponse)
             {
-                GetChambreList();
+                await GetChambreList();
             }
         }
     }

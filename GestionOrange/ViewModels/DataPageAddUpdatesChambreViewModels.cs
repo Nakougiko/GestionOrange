@@ -20,14 +20,14 @@ namespace GestionOrange.ViewModels
         }
 
         [RelayCommand]
-        public async void AddUpdateChambre()
+        public async Task AddUpdateChambre()
         {
             if (!ValidateChambreDetails())
                 return;
 
             if (await ChambreExists(ChambreDetails.IdChambre, ChambreDetails.Longitude, ChambreDetails.Latitude, ChambreDetails.NumeroSerie))
             {
-                await Shell.Current.DisplayAlert("Technicien existant", "Des données similaires ont été trouvées", "OK");
+                await Shell.Current.DisplayAlert("Chambre existante", "Des données similaires ont été trouvées", "OK");
                 return;
             }
 
@@ -73,10 +73,12 @@ namespace GestionOrange.ViewModels
             return true;
         }
 
-        private async Task<bool> ChambreExists(int id, float longitude, float latitude, string numeroSerie)
+        private async Task<bool> ChambreExists(int id, float longitude, float latitude, string? numeroSerie)
         {
             var chambres = await _dbContext.GetAllAsync<ChambreModel>();
-            return chambres.Any(c => c.IdChambre != id && ((c.NumeroSerie.Equals(numeroSerie)) || (c.Longitude.Equals(longitude) && c.Latitude.Equals(latitude))));
+            return chambres.Any(c => c.IdChambre != id &&
+                ((!string.IsNullOrEmpty(numeroSerie) && c.NumeroSerie!.Equals(numeroSerie)) ||
+                (c.Longitude.Equals(longitude) && c.Latitude.Equals(latitude))));
         }
     }
 }

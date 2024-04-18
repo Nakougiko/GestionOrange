@@ -9,26 +9,26 @@ namespace GestionOrange.Services
 {
     public static class FormatDonnee
     {
-        public static string ConvertToDatabaseFormat(string nom)
+        public static string ConvertToDatabaseFormat(string? nom)
         {
-            return nom.Trim().ToLower().Replace(" ", "_");
+            return nom!.Trim().ToLower().Replace(" ", "_");
         }
 
-        public static string ConvertToDisplayFormat(string nom)
+        public static string ConvertToDisplayFormat(string? nom)
         {
-            nom = nom.Replace("_", " ");
+            nom = nom!.Replace("_", " ");
             nom = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(nom.ToLower());
             return nom;
         }
 
-        public static string ConvertNumeroToDatabaseFormat(string numero)
+        public static string ConvertNumeroToDatabaseFormat(string? numero)
         {
-            return numero.Replace(" ", "");
+            return numero!.Replace(" ", "");
         }
 
-        public static string ConvertNumeroToDisplayFormat(string numero)
+        public static string ConvertNumeroToDisplayFormat(string? numero)
         {
-            for (int i = 2; i < numero.Length; i += 3)
+            for (int i = 2; i < numero!.Length; i += 3)
             {
                 numero = numero.Insert(i, " ");
             }

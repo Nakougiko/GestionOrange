@@ -16,9 +16,9 @@ namespace GestionOrange.Behaviors
             base.OnDetachingFrom(entry);
         }
 
-        private void OnEntryTextChanged(object sender, TextChangedEventArgs e)
+        private void OnEntryTextChanged(object? sender, TextChangedEventArgs e)
         {
-            var entry = (Entry)sender;
+            var entry = (Entry)sender!;
             entry.Text = FormatPhoneNumber(e.NewTextValue);
             entry.CursorPosition = entry.Text.Length;
         }

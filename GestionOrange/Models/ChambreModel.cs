@@ -9,7 +9,7 @@ namespace GestionOrange.Models
         public int IdChambre { get; set; }
 
         [Column("numeroSerie")]
-        public string NumeroSerie { get; set; }
+        public string? NumeroSerie { get; set; }
 
         [Column("latitude")]
         public float Latitude { get; set; }

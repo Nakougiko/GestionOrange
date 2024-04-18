@@ -10,13 +10,13 @@ namespace GestionOrange.Models
         public int IdTechnicien { get; set; }
 
         [Column("nom")]
-        public string NomTechnicien { get; set; }
+        public string? NomTechnicien { get; set; }
 
         [Column("prenom")]
-        public string PrenomTechnicien { get; set; }
+        public string? PrenomTechnicien { get; set; }
 
         [Column("numeroTelephone")]
-        public string NumeroTechnicien { get; set; }
+        public string? NumeroTechnicien { get; set; }
 
         [Column("astreinte")]
         public bool Astreinte { get; set; }

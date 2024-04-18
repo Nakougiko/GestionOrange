@@ -20,12 +20,12 @@ namespace GestionOrange.Behaviors
             base.OnDetachingFrom(entry);
         }
 
-        private void OnEntryTextChanged(object sender, TextChangedEventArgs e)
+        private void OnEntryTextChanged(object? sender, TextChangedEventArgs e)
         {
             if (string.IsNullOrWhiteSpace(e.NewTextValue))
                 return;
 
-            ((Entry)sender).Text = new string(e.NewTextValue.Where(c => char.IsDigit(c) || c == '.' || c == ',' || c == '-').ToArray());
+            ((Entry)sender!).Text = new string(e.NewTextValue.Where(c => char.IsDigit(c) || c == '.' || c == ',' || c == '-').ToArray());
         }
     }
 }

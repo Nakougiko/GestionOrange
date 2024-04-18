@@ -42,7 +42,7 @@
 
         <VerticalStackLayout>
             <Label Text="Astreinte"/>
-            <Switch IsToggled="{Binding TechnicienDetails.Astreinte}" />
+            <Switch IsToggled="{Binding TechnicienDetails.Astreinte}"/>
             <BoxView HeightRequest="0.8" Color="Gray" />
         </VerticalStackLayout>
 

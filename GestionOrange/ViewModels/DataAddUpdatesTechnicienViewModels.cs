@@ -20,7 +20,7 @@ namespace GestionOrange.ViewModels
         }
 
         [RelayCommand]
-        public async void AddUpdateTechnicien()
+        public async Task AddUpdateTechnicien()
         {
             if (!ValidateTechnicienDetails())
                 return;
@@ -77,10 +77,10 @@ namespace GestionOrange.ViewModels
         }
 
         // Vérifie si un technicien existe déjà avec des détails similaires
-        private async Task<bool> TechnicienExists(int id, string nom, string prenom, string telephone)
+        private async Task<bool> TechnicienExists(int id, string? nom, string? prenom, string? telephone)
         {
             var techniciens = await _dbContext.GetAllAsync<TechnicienModel>();
-            return techniciens.Any(t => t.IdTechnicien != id && ((t.NomTechnicien.Equals(nom) && t.PrenomTechnicien.Equals(prenom)) || t.NumeroTechnicien.Equals(telephone)));
+            return techniciens.Any(t => t.IdTechnicien != id && ((t.NomTechnicien!.Equals(nom) && t.PrenomTechnicien!.Equals(prenom)) || t.NumeroTechnicien!.Equals(telephone)));
         }
     }
 }
