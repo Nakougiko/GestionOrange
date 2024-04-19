@@ -1,4 +1,5 @@
-﻿using GestionOrange.Services;
+﻿using CommunityToolkit.Maui.Maps;
+using GestionOrange.Services;
 using GestionOrange.ViewModels;
 using GestionOrange.Views;
 using Microsoft.Extensions.Logging;
@@ -12,6 +13,7 @@ namespace GestionOrange
             var builder = MauiApp.CreateBuilder();
             builder
                 .UseMauiApp<App>()
+                .UseMauiCommunityToolkitMaps("blCELDGTRKpQkSPwQ5sm~w0h-u1NLiwBgkYwEHdIPvw~Aoik9UqhqVjDJnfkQu6sguxDValzaOyH7s5NYL-2HnxECTPwKEIrsnl6arbSh4t2")
                 .ConfigureFonts(fonts =>
                 {
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");

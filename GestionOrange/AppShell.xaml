@@ -15,6 +15,12 @@
         </Grid>
     </Shell.FlyoutHeader>
 
+    <FlyoutItem Title="Carte" Icon="data_img.png">
+        <ShellContent
+        ContentTemplate="{DataTemplate views:MapPage}"
+        Route="MapPage" />
+    </FlyoutItem>
+    
     <FlyoutItem Title="Gestion base de données" Icon="data_img.png">
         <ShellContent
             ContentTemplate="{DataTemplate views:DataListPage}"

@@ -22,8 +22,8 @@ namespace GestionOrange.ViewModels
         {
             string champsVides = string.Empty;
 
-            if (string.IsNullOrEmpty(ChambreDetails.Longitude) ||
-                string.IsNullOrEmpty(ChambreDetails.Latitude))
+            if (ChambreDetails.Longitude == null ||
+                ChambreDetails.Latitude == null)
             {
                 await Shell.Current.DisplayAlert("Champs manquants", "Veuillez remplir tous les champs", "OK");
                 return;
