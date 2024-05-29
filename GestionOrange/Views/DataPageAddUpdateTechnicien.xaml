@@ -7,44 +7,47 @@
              Title="Technicien">
 
     <StackLayout Margin="10" Spacing="15">
-        <VerticalStackLayout>
-            <Label Text="Nom" />
+        <Grid RowDefinitions="Auto,Auto"
+              ColumnDefinitions="500,500"
+              ColumnSpacing="25">
+            <Label Text="Nom" Grid.Row="0" Grid.Column="0"/>
             <Entry Text="{Binding TechnicienDetails.NomTechnicien}" Placeholder="Nom" 
-                   MaxLength="20">
+                   MaxLength="20" Grid.Row="1" Grid.Column="0">
                 <Entry.Behaviors>
                     <behaviors:NomPrenomMaskBehavior/>
                 </Entry.Behaviors>
             </Entry>
-            <BoxView HeightRequest="0.8" Color="Gray" />
-        </VerticalStackLayout>
-
-        <VerticalStackLayout>
-            <Label Text="Prénom" />
+            <Label Text="Prénom" Grid.Row="0" Grid.Column="1"/>
             <Entry Text="{Binding TechnicienDetails.PrenomTechnicien}" Placeholder="Prénom" 
-                   MaxLength="20">
+                   MaxLength="20" Grid.Row="1" Grid.Column="1">
                 <Entry.Behaviors>
                     <behaviors:NomPrenomMaskBehavior/>
                 </Entry.Behaviors>
             </Entry>
-            <BoxView HeightRequest="0.8" Color="Gray" />
-        </VerticalStackLayout>
+        </Grid>
 
-        <VerticalStackLayout>
-            <Label Text="Numéro de téléphone" />
+
+        <Grid RowDefinitions="Auto,Auto"
+              ColumnDefinitions="500, Auto"
+              ColumnSpacing="25">
+            <Label Text="Numéro de téléphone" Grid.Row="0"/>
             <Entry Text="{Binding TechnicienDetails.NumeroTechnicien}" Placeholder="Numéro de téléphone"
-                   Keyboard="Telephone" MaxLength="14">
+                   Keyboard="Telephone" MaxLength="14" Grid.Row="1">
                 <Entry.Behaviors>
                     <behaviors:NumeroTelephoneMaskBehavior/>
                 </Entry.Behaviors>
             </Entry>
-            <BoxView HeightRequest="0.8" Color="Gray" />
-        </VerticalStackLayout>
+            <Label Text="Astreinte" Grid.Row="0" Grid.Column="1"/>
+            <Switch IsToggled="{Binding TechnicienDetails.Astreinte}" Grid.Row="1" Grid.Column="1"/>
+        </Grid>
 
-        <VerticalStackLayout>
-            <Label Text="Astreinte"/>
-            <Switch IsToggled="{Binding TechnicienDetails.Astreinte}"/>
-            <BoxView HeightRequest="0.8" Color="Gray" />
-        </VerticalStackLayout>
+        <HorizontalStackLayout Spacing="25">
+            <Label Text="Secteur"/>
+            <Picker WidthRequest="300" 
+                    ItemsSource="{Binding Secteurs}" 
+                    ItemDisplayBinding="{Binding NomSecteur}" 
+                    SelectedItem="{Binding SelectedSecteur}"/>
+        </HorizontalStackLayout>
 
         <Button Text="Enregistrer" Command="{Binding AddUpdateTechnicienCommand}" />
     </StackLayout>

@@ -97,12 +97,6 @@ namespace GestionOrange.Services
         }
 
         // Libère les ressources de connexion à la base de données
-        public async ValueTask DisposeAsync()
-        {
-            if (_connection != null)
-            {
-                await _connection!.CloseAsync();
-            }
-        }
+        public async ValueTask DisposeAsync() => await _connection.CloseAsync();
     }
 }

@@ -2,6 +2,7 @@
 using CommunityToolkit.Mvvm.Input;
 using GestionOrange.Models;
 using GestionOrange.Services;
+using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Text.RegularExpressions;
 
@@ -14,9 +15,35 @@ namespace GestionOrange.ViewModels
         private ChambreModel _chambreDetails = new ChambreModel();
         private readonly DatabaseContext _dbContext;
 
+        [ObservableProperty] // Propriété pour convenir les secteurs
+        private ObservableCollection<SecteurModel> _secteurs = new ObservableCollection<SecteurModel>();
+
+        [ObservableProperty]
+        private SecteurModel _selectedSecteur;
+
         public DataPageAddUpdatesChambreViewModels(DatabaseContext dbContext)
         {
             _dbContext = dbContext;
+            ChargerSecteur();
+        }
+
+        // Méthode pour charger les secteurs
+        private async void ChargerSecteur()
+        {
+            var secteurs = await _dbContext.GetAllAsync<SecteurModel>();
+            Secteurs = new ObservableCollection<SecteurModel>(secteurs);
+            if (ChambreDetails.Secteur_IdSecteur != 0)
+            {
+                SelectedSecteur = Secteurs.FirstOrDefault(s => s.IdSecteur == ChambreDetails.Secteur_IdSecteur);
+            }
+        }
+
+        partial void OnSelectedSecteurChanged(SecteurModel value)
+        {
+            if (value != null)
+            {
+                ChambreDetails.Secteur_IdSecteur = value.IdSecteur;
+            }
         }
 
         [RelayCommand]
@@ -45,6 +72,12 @@ namespace GestionOrange.ViewModels
             if (string.IsNullOrEmpty(ChambreDetails.NumeroSerie))
             {
                 Shell.Current.DisplayAlert("Champs manquants", "Veuillez remplir tous les champs", "OK");
+                return false;
+            }
+
+            if (SelectedSecteur == null)
+            {
+                Shell.Current.DisplayAlert("Secteur manquant", "Veuillez sélectionner un secteur", "OK");
                 return false;
             }
 

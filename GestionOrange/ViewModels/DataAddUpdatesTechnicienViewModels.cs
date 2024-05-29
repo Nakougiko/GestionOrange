@@ -2,6 +2,8 @@
 using CommunityToolkit.Mvvm.Input;
 using GestionOrange.Models;
 using GestionOrange.Services;
+using System.Collections.ObjectModel;
+using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
@@ -12,11 +14,19 @@ namespace GestionOrange.ViewModels
     {
         [ObservableProperty]
         private TechnicienModel _technicienDetails = new TechnicienModel();
+
         private readonly DatabaseContext _dbContext;
+
+        [ObservableProperty]
+        private ObservableCollection<SecteurModel> _secteurs = new ObservableCollection<SecteurModel>();
+
+        [ObservableProperty]
+        private SecteurModel _selectedSecteur;
 
         public DataAddUpdatesTechnicienViewModels(DatabaseContext dbContext)
         {
             _dbContext = dbContext;
+            ChargerSecteur();
         }
 
         [RelayCommand]
@@ -25,23 +35,45 @@ namespace GestionOrange.ViewModels
             if (!ValidateTechnicienDetails())
                 return;
 
+            // Formater les données du technicien
             TechnicienDetails.NomTechnicien = FormatDonnee.ConvertToDatabaseFormat(TechnicienDetails.NomTechnicien);
             TechnicienDetails.PrenomTechnicien = FormatDonnee.ConvertToDatabaseFormat(TechnicienDetails.PrenomTechnicien);
             TechnicienDetails.NumeroTechnicien = FormatDonnee.ConvertNumeroToDatabaseFormat(TechnicienDetails.NumeroTechnicien);
 
+            // Vérifier si le technicien existe déjà
             if (await TechnicienExists(TechnicienDetails.IdTechnicien, TechnicienDetails.NomTechnicien, TechnicienDetails.PrenomTechnicien, TechnicienDetails.NumeroTechnicien))
             {
                 await Shell.Current.DisplayAlert("Technicien existant", "Des données similaires ont été trouvées", "OK");
                 return;
             }
 
-            bool success = TechnicienDetails.IdTechnicien > 0 ?
-                await _dbContext.UpdateItemAsync<TechnicienModel>(TechnicienDetails) :
-                await _dbContext.AddItemAsync<TechnicienModel>(TechnicienDetails);
+            // Ajouter ou mettre à jour le technicien
+            bool success = TechnicienDetails.IdTechnicien > 0
+                ? await _dbContext.UpdateItemAsync<TechnicienModel>(TechnicienDetails)
+                : await _dbContext.AddItemAsync<TechnicienModel>(TechnicienDetails);
 
             string message = success ? "Enregistrement réussi" : "Quelque chose s'est mal passé lors de l'ajout ou de la mise à jour du technicien";
             await Shell.Current.DisplayAlert("Information du technicien", message, "OK");
             await Shell.Current.GoToAsync("..");
+        }
+
+        // Méthode pour charger les secteurs
+        private async void ChargerSecteur()
+        {
+            var secteurs = await _dbContext.GetAllAsync<SecteurModel>();
+            Secteurs = new ObservableCollection<SecteurModel>(secteurs);
+            if (TechnicienDetails.Secteur_IdSecteur != 0)
+            {
+                SelectedSecteur = Secteurs.FirstOrDefault(s => s.IdSecteur == TechnicienDetails.Secteur_IdSecteur);
+            }
+        }
+
+        partial void OnSelectedSecteurChanged(SecteurModel value)
+        {
+            if (value != null)
+            {
+                TechnicienDetails.Secteur_IdSecteur = value.IdSecteur;
+            }
         }
 
         // Valide les détails du technicien
@@ -53,6 +85,12 @@ namespace GestionOrange.ViewModels
                 string.IsNullOrWhiteSpace(TechnicienDetails.NumeroTechnicien))
             {
                 Shell.Current.DisplayAlert("Champs manquants", "Veuillez remplir tous les champs", "OK");
+                return false;
+            }
+
+            if (SelectedSecteur == null)
+            {
+                Shell.Current.DisplayAlert("Secteur manquant", "Veuillez sélectionner un secteur", "OK");
                 return false;
             }
 
@@ -80,7 +118,8 @@ namespace GestionOrange.ViewModels
         private async Task<bool> TechnicienExists(int id, string? nom, string? prenom, string? telephone)
         {
             var techniciens = await _dbContext.GetAllAsync<TechnicienModel>();
-            return techniciens.Any(t => t.IdTechnicien != id && ((t.NomTechnicien!.Equals(nom) && t.PrenomTechnicien!.Equals(prenom)) || t.NumeroTechnicien!.Equals(telephone)));
+            return techniciens.Any(t => t.IdTechnicien != id &&
+                ((t.NomTechnicien!.Equals(nom) && t.PrenomTechnicien!.Equals(prenom)) || t.NumeroTechnicien!.Equals(telephone)));
         }
     }
 }

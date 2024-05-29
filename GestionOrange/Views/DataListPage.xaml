@@ -64,8 +64,11 @@
                                                 <Label Text="{Binding PrenomTechnicien}" Style="{StaticResource Elements}" 
                                                        FontAttributes="Bold" FontSize="Medium"/>
                                             </HorizontalStackLayout>
-                                            <Label Text="{Binding NumeroTechnicien}" Style="{StaticResource Elements}"
-                                                       Grid.Row="1"/>
+                                            <HorizontalStackLayout Grid.Row="1">
+                                                <Label Text="{Binding NumeroTechnicien}" Style="{StaticResource Elements}"/>
+                                                <Label Text=" - Secteur " Style="{StaticResource Elements}" FontAttributes="Italic"/>
+                                                <Label Text="{Binding Secteur_IdSecteur}" Style="{StaticResource Elements}" FontAttributes="Italic"/>
+                                            </HorizontalStackLayout>
                                             <Image Source="{Binding Astreinte, Converter={StaticResource AstreinteImage}}"
                                                    Grid.RowSpan="2" Grid.Column="1"
                                                    HeightRequest="50" HorizontalOptions="CenterAndExpand"/>
@@ -102,6 +105,8 @@
                                                     <Label Text="{Binding Latitude}" Style="{StaticResource Elements}"/>
                                                     <Label Text="Long: " Style="{StaticResource Elements}"/>
                                                     <Label Text="{Binding Longitude}" Style="{StaticResource Elements}"/>
+                                                    <Label Text="Secteur: " Style="{StaticResource Elements}"/>
+                                                    <Label Text="{Binding Secteur_IdSecteur}" Style="{StaticResource Elements}"/>
                                                 </HorizontalStackLayout>
                                             </VerticalStackLayout>
                                         </Grid>

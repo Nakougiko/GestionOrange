@@ -8,16 +8,27 @@
 
 
     <StackLayout Margin="10" Spacing="15">
-        <VerticalStackLayout>
-            <Label Text="Numéro de série" />
-            <Entry Text="{Binding ChambreDetails.NumeroSerie}" Placeholder="Numéro de série"
-                   Keyboard="Numeric">
-                <Entry.Behaviors>
-                    <behaviors:AdresseMacMaskBehavior/>
-                </Entry.Behaviors>
-            </Entry>
-            <BoxView HeightRequest="0.8" Color="Gray" />
-        </VerticalStackLayout>
+        <Grid RowDefinitions="Auto" ColumnDefinitions="*,*" ColumnSpacing="25">
+            <VerticalStackLayout Grid.Column="0">
+                <Label Text="Numéro de série" />
+                <Entry Text="{Binding ChambreDetails.NumeroSerie}" Placeholder="Numéro de série"
+                       Keyboard="Numeric">
+                    <Entry.Behaviors>
+                        <behaviors:AdresseMacMaskBehavior/>
+                    </Entry.Behaviors>
+                </Entry>
+                <BoxView HeightRequest="0.8" Color="Gray" />
+            </VerticalStackLayout>
+
+            <VerticalStackLayout Grid.Column="1">
+                <Label Text="Secteur"/>
+                <Picker WidthRequest="300" HeightRequest="25"
+                        ItemsSource="{Binding Secteurs}"
+                        ItemDisplayBinding="{Binding NomSecteur}"
+                        SelectedItem="{Binding SelectedSecteur}"/>
+                <BoxView HeightRequest="0.8" Color="Gray" />
+            </VerticalStackLayout>
+        </Grid>
 
         <VerticalStackLayout>
             <Label Text="Latitude" />
@@ -40,6 +51,7 @@
             </Entry>
             <BoxView HeightRequest="0.8" Color="Gray" />
         </VerticalStackLayout>
+
 
         <Button Text="Enregistrer" Command="{Binding AddUpdateChambreCommand}" />
     </StackLayout>
