@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="GestionOrange.Services.Serveur">
+    <Position X="4" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgAAQABAAAAAAAAAAAAAAAAAAACAAAAAAACAAAAAAAA=</HashCode>
+      <FileName>Services\Serveur.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="_databaseContext" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="GestionOrange.Views.MapPage">
+    <Position X="0.5" Y="2.25" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAIAAgAAAAAAAAAAAAAAAAAAAAAAAAADAAAAAAAA=</HashCode>
+      <FileName>Views\MapPage.xaml.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="_databaseContext" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Microsoft.Maui.Controls.ContentPage" Collapsed="true">
+    <Position X="0.75" Y="0.75" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="GestionOrange.Services.DatabaseContext" Collapsed="true">
+    <Position X="3" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAEEAAAAgEAAAIQAIAAAABAAAIAAQAAAAEAAACAABAA=</HashCode>
+      <FileName>Services\DatabaseContext.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
