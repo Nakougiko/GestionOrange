@@ -80,7 +80,7 @@ Certaines fonctionnalités qui auraient dû être incluses, comme une **map inte
 
 Voici une capture d'écran représentant la structure de la base de données et des tables : 
 
-![Exemple de base de données](https://imgur.com/a/ysz5Qrx)
+![Exemple de base de données](schema.png)
 
 ---
 
